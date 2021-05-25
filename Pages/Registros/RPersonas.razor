@@ -1,0 +1,138 @@
+﻿@page "/Personas"
+
+@using Tarea3.BLL;
+@using Tarea3.Models;
+@inject IToastService Toast
+
+    <!-- bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+
+<EditForm Model="personas" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="card">
+        <div class="card-header">
+            <h3>Registro de Personas</h3>
+        </div>
+        <div class="card-body">
+            <form>
+                   
+                <div class="input-group mb-3">
+                    <div class="form-floating">
+                        <input type="number" @bind-value="personas.PersonaId" class="form-control" min="0" id="ClienteIdFlotante" placeholder="Persona Id" />
+                        <label for="ClienteIdFlotante" style="color: gray;">Persona Id</label>
+                    </div>
+                      
+                    <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" @bind-value="personas.Nombres" class="form-control" id="nombreFlotante" placeholder="Nombres" />
+                    <label for="nombreFlotante" style="color: gray;">Nombres</label>
+                    <ValidationMessage For="@(() => personas.Nombres)" />
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="tel" @bind-value="personas.Telefono" class="form-control" id="telefonoFlotante" placeholder="Teléfono" maxlength="16" />
+                    <label for="telefonoFlotante" style="color: gray;">Teléfono</label>
+                    <ValidationMessage For="@(() => personas.Telefono)" />
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" @bind-value="personas.Direccion" class="form-control" id="direccionFlotante" placeholder="Dirección" />
+                    <label for="direccionFlotante" style="color: gray;">Dirección</label>
+                    <ValidationMessage For="@(() => personas.Direccion)" />
+                </div>
+
+
+                <div class="form-floating mb-3">
+                    <input type="date" @bind-value="personas.FechaNacimiento" class="form-control" id="fechaNacimientoFlotante" placeholder="Fecha Nacimiento" />
+                    <label for="fechaNacimientoFlotante" style="color: gray;">Fecha Nacimiento</label>
+                    <ValidationMessage For="@(() => personas.FechaNacimiento)" />
+                </div>
+
+                
+                <div class="form-floating mb-3">
+                    <input type="number" @bind-value="personas.Balance" class="form-control" id="balanceFlotante" placeholder="Balance" readonly />
+                    <label for="balanceFlotante" style="color: gray;">Balance</label>
+                </div>
+            </form>
+        </div>
+ 
+        <div class="card-footer">
+            <div class="form-group text-center">
+                <button type="button" class="btn btn-primary" @onclick="Nuevo" style="margin: 5px">Nuevo</button>
+                <button type="submit" class="btn btn-success" style="margin: 5px">Guardar</button>
+                <button type="button" class="btn btn-danger" @onclick="Eliminar" style="margin: 5px">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int PersonaId { get; set; }
+
+    private Personas personas = new Personas();
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+    }
+
+   
+    public void Nuevo()
+    {
+        personas = new Personas();
+    }
+
+  
+    private void Buscar()
+    {
+        var encontrado = PersonasBLL.Buscar(personas.PersonaId);
+
+        if (encontrado != null)
+        {
+            this.personas = encontrado;
+            return;
+        }
+        else
+            Nuevo();
+        Toast.ShowWarning("Esta Id no pudo ser encontrada.");
+        return;
+    }
+
+
+    public void Guardar()
+    {
+        bool guardado;
+
+        guardado = PersonasBLL.Guardar(personas);
+
+        if (guardado)
+        {
+            Nuevo();
+            Toast.ShowSuccess("Registro Guardado exitosamente.");
+        }
+        else
+            Toast.ShowError("No fue posible Guardar este Registro.");
+        return;
+    }
+
+   
+    public void Eliminar()
+    {
+        bool eliminado;
+
+        eliminado = PersonasBLL.Eliminar(personas.PersonaId);
+
+        if (eliminado)
+        {
+            Nuevo();
+            Toast.ShowSuccess("Registro Eliminado exitosamente.");
+        }
+        else
+            Toast.ShowError("No fue posible Eliminar este Registro.");
+        return;
+    }
+}
