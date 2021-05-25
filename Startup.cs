@@ -33,6 +33,7 @@ namespace Tarea3
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddBlazoredToast();//Toast
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
