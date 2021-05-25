@@ -110,12 +110,12 @@ namespace Tarea3.BLL
                 contexto.Dispose();
             }
 
-            #region————————————————————————[ No mostrar si la visibilidad es false ]————————————————————————
+           
             if (prestamos?.Visibilidad == false) //? para ejecutar el if aun que sea null
             {
                 return null;
             }
-            #endregion
+          
 
             return prestamos;
         }

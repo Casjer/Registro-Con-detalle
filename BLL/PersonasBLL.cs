@@ -4,14 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Linq.Expressions;
 using Tarea3.DAL;
-using Tarea3;
 using Tarea3.Models;
 
-namespace Tarea3Ap2_JoseLuis.BLL
+namespace Tarea3.BLL
 {
     public class PersonasBLL
     {
-        //——————————————————————————————————————————————[ GUARDAR ]——————————————————————————————————————————————
         public static bool Guardar(Personas personas)
         {
             if (!Existe(personas.PersonaId))
@@ -19,7 +17,7 @@ namespace Tarea3Ap2_JoseLuis.BLL
             else
                 return Modificar(personas);
         }
-        //——————————————————————————————————————————————[ INSERTAR ]——————————————————————————————————————————————
+     
         public static bool Insertar(Personas personas)
         {
             bool paso = false;
@@ -41,7 +39,7 @@ namespace Tarea3Ap2_JoseLuis.BLL
 
             return paso;
         }
-        //——————————————————————————————————————————————[ MODIFICAR ]——————————————————————————————————————————————
+     
         public static bool Modificar(Personas personas)
         {
             bool paso = false;
@@ -63,7 +61,6 @@ namespace Tarea3Ap2_JoseLuis.BLL
 
             return paso;
         }
-        //——————————————————————————————————————————————[ ELIMINAR ]——————————————————————————————————————————————
         public static bool Eliminar(int id)
         {
             bool paso = false;
@@ -90,7 +87,7 @@ namespace Tarea3Ap2_JoseLuis.BLL
 
             return paso;
         }
-        //——————————————————————————————————————————————[ BUSCAR ]——————————————————————————————————————————————
+        
         public static Personas Buscar(int id)
         {
             Contexto contexto = new Contexto();
@@ -109,16 +106,15 @@ namespace Tarea3Ap2_JoseLuis.BLL
                 contexto.Dispose();
             }
 
-            #region————————————————————————[ No mostrar si la visibilidad es false ]————————————————————————
+            
             if (personas?.Visibilidad == false) //? para ejecutar el if aun que sea null
             {
                 return null;
             }
-            #endregion
-
+           
             return personas;
         }
-        //——————————————————————————————————————————————[ GETLIST ]——————————————————————————————————————————————
+        
         public static List<Personas> GetList(Expression<Func<Personas, bool>> criterio)
         {
             List<Personas> lista = new List<Personas>();
@@ -139,7 +135,7 @@ namespace Tarea3Ap2_JoseLuis.BLL
 
             return lista;
         }
-        //——————————————————————————————————————————————[ EXISTE ]——————————————————————————————————————————————
+        
         public static bool Existe(int id)
         {
             Contexto contexto = new Contexto();
@@ -160,7 +156,7 @@ namespace Tarea3Ap2_JoseLuis.BLL
 
             return encontrado;
         }
-        //——————————————————————————————————————————————[ GET ]——————————————————————————————————————————————
+        
         public static List<Personas> GetPersonas()
         {
             List<Personas> lista = new List<Personas>();
@@ -181,7 +177,7 @@ namespace Tarea3Ap2_JoseLuis.BLL
 
             return lista;
         }
-        //——————————————————————————————————————————————[ Sumar - Balance ]——————————————————————————————————————————————
+        
         public static void SumarBalance(int id, double cantidad)
         {
             Personas personas = Buscar(id);
@@ -190,7 +186,7 @@ namespace Tarea3Ap2_JoseLuis.BLL
 
             Modificar(personas);
         }
-        //——————————————————————————————————————————————[ Restar - Balance ]——————————————————————————————————————————————
+        
         public static void RestarBalance(int id, double cantidad)
         {
             Personas personas = Buscar(id);
