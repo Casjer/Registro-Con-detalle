@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tarea3.Models
 {
-    public class Personas
+    public class Persona
     {
         [Key]
         public int PersonaId { get; set; }

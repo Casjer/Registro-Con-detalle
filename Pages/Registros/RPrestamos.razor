@@ -1,11 +1,10 @@
-﻿@page "/Prestamos"
-@page "/Prestamos/{PrestamoId:int}"
+﻿@page "/RPrestamos"
 
 @using Tarea3.Models;
 @using Tarea3.BLL;
 @inject IToastService toast
 
-<EditForm Model="prestamos" OnValidSubmit="Guardar">
+<EditForm Model="Prestamo" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <div class="card">
         <div class="card-header">
@@ -20,7 +19,7 @@
                     <div class="form-group">
                         <label>PrestamoId</label>
                         <div class="input-group">
-                            <InputNumber @bind-Value="prestamos.PrestamoId" class="form-control col-4" />
+                            <InputNumber @bind-Value="Prestamo.PrestamoId" class="form-control col-4" />
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search" viewBox="0 0 20 20">
@@ -35,9 +34,9 @@
 
             <div class="form-group">
                 <label for="persona_select">PersonaId</label>
-                <select id="persona_select" @bind="prestamos.PersonaId" class="form-control">
-                    <option value="" disabled selected>Personas Disponibles</option>
-                    @foreach (var item in ListaPersonas)
+                <select id="persona_select" @bind="Prestamo.PersonaId" class="form-control">
+                    <option value="" disabled selected>Persona Disponibles</option>
+                    @foreach (var item in Personas)
                     {
                         <option value="@item.PersonaId">@item.Nombres</option>
                     }
@@ -47,30 +46,30 @@
             @*Concepto*@
             <div class="form-group">
                 <label>Concepto</label>
-                <InputText @bind-Value="prestamos.Concepto" class="form-control" />
-                <ValidationMessage For="@(() => prestamos.Concepto)" />
+                <InputText @bind-Value="Prestamo.Concepto" class="form-control" />
+                <ValidationMessage For="@(() => Prestamo.Concepto)" />
             </div>
 
             @*Fecha de creación*@
             <div class="form-group">
                 <label>Fecha de creación</label>
-                <InputDate @bind-Value="prestamos.Fecha" class="form-control" />
-                <ValidationMessage For="@(() => prestamos.Fecha)" />
+                <InputDate @bind-Value="Prestamo.Fecha" class="form-control" />
+                <ValidationMessage For="@(() => Prestamo.Fecha)" />
             </div>
 
             @*Monto*@
             <div class="form-group">
                 <label>Monto</label>
-                <InputNumber @bind-Value="prestamos.Monto" step="0.2" class="form-control" />
-                <ValidationMessage For="@(() => prestamos.Monto)" />
+                <InputNumber @bind-Value="Prestamo.Monto" step="0.2" class="form-control" />
+                <ValidationMessage For="@(() => Prestamo.Monto)" />
             </div>
 
 
             @*Balance*@
             <div class="form-group">
                 <label>Balance</label>
-                <InputNumber @bind-Value="prestamos.Balance" class="form-control " readonly="true" />
-                <ValidationMessage For="@(() => prestamos.Balance)" />
+                <InputNumber @bind-Value="Prestamo.Balance" class="form-control "  />
+                <ValidationMessage For="@(() => Prestamo.Balance)" />
             </div>
 
         </div>
@@ -89,74 +88,52 @@
 
 @code
 {
-    [Parameter]
-    public int PrestamoId { get; set; }
-
-    private Prestamos prestamos = new Prestamos();
-    List<Personas> ListaPersonas = new List<Personas>();
+    private Prestamo Prestamo = new Prestamo();
+    public List<Persona> Personas { get; set; }
 
     protected override void OnInitialized()
     {
-        Nuevo();
-        if (PrestamoId > 0)
-        {
-            var Prestamo = PrestamosBLL.Buscar(PrestamoId);
-            if (Prestamo != null)
-                this.prestamos = Prestamo;
-            else
-                toast.ShowWarning("No encontrado.");
-        }
-
-        ListaPersonas = PersonasBLL.GetList(p => true);
+        Personas = PersonaBLL.GetList(p => true);
     }
-
 
     public void Nuevo()
     {
-        prestamos = new Prestamos();
+        Prestamo = new Prestamo();
     }
-
 
     private void Buscar()
     {
-        if (prestamos.PrestamoId > 0)
-        {
-            var encontrado = PrestamosBLL.Buscar(prestamos.PrestamoId);
+        var encontrado = PrestamoBLL.Buscar(Prestamo.PrestamoId);
 
-            if (encontrado != null)
-                this.prestamos = encontrado;
-            else
-                toast.ShowWarning("No encontrado");
-        }
+        if (encontrado != null)
+            this.Prestamo = encontrado;
+        else
+            toast.ShowWarning("Préstamo no encontrado");
     }
 
     public void Guardar()
     {
-        bool guardo;
+        bool guardado = PrestamoBLL.Guardar(Prestamo);
 
-        guardo = PrestamosBLL.Guardar(prestamos);
-
-        if (guardo)
+        if (guardado)
         {
             Nuevo();
-            toast.ShowSuccess("Guardado correctamente");
+            toast.ShowSuccess("Prestamo guardado correctamente");
         }
         else
-            toast.ShowError("No fue posible guardar");
+            toast.ShowError("No se pudo guardar el Préstamo");
     }
 
     public void Eliminar()
     {
-        bool elimino;
+        bool eliminado = PrestamoBLL.Eliminar(Prestamo.PrestamoId);
 
-        elimino = PrestamosBLL.Eliminar(prestamos.PrestamoId);
-
-        if (elimino)
+        if (eliminado)
         {
             Nuevo();
-            toast.ShowSuccess("Eliminado correctamente");
+            toast.ShowSuccess("Préstamo eliminado correctamente");
         }
         else
-            toast.ShowError("No fue posible eliminar");
+            toast.ShowError("No se pudo eliminar el Préstamo");
     }
 }

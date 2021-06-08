@@ -10,10 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tarea3.DAL;
-using Tarea3.Data;
+//using Tarea3.Data;
 using Microsoft.EntityFrameworkCore;
 using Blazored.Toast;//Toast
-using Blazored.Toast.Services;//Toast
+
 
 namespace Tarea3
 {
@@ -31,7 +31,6 @@ namespace Tarea3
             //services.AddDbContext<Contexto>(op => op.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
             services.AddBlazoredToast();//Toast
             
         }

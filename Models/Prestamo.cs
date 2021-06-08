@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tarea3.Models
 {
-    public class Prestamos
+    public class Prestamo
     {
         [Key]
         public int PrestamoId { get; set; }
@@ -21,7 +21,7 @@ namespace Tarea3.Models
         public int PersonaId { get; set; }
 
         [ForeignKey("PersonaId")]
-        public virtual Personas Persona { get; set; }
+        public virtual Persona Persona { get; set; }
         public bool Visibilidad { get; internal set; }
     }
 }

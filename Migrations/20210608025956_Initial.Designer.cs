@@ -9,7 +9,7 @@ using Tarea3.DAL;
 namespace Tarea3.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20210525042458_Initial")]
+    [Migration("20210608025956_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace Tarea3.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.6");
 
-            modelBuilder.Entity("Tarea3.Models.Personas", b =>
+            modelBuilder.Entity("Tarea3.Models.Persona", b =>
                 {
                     b.Property<int>("PersonaId")
                         .ValueGeneratedOnAdd()
@@ -42,12 +42,15 @@ namespace Tarea3.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("Visibilidad")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("PersonaId");
 
-                    b.ToTable("Personas");
+                    b.ToTable("Persona");
                 });
 
-            modelBuilder.Entity("Tarea3.Models.Prestamos", b =>
+            modelBuilder.Entity("Tarea3.Models.Prestamo", b =>
                 {
                     b.Property<int>("PrestamoId")
                         .ValueGeneratedOnAdd()
@@ -56,7 +59,7 @@ namespace Tarea3.Migrations
                     b.Property<double>("Balance")
                         .HasColumnType("REAL");
 
-                    b.Property<string>("Descripcion")
+                    b.Property<string>("Concepto")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -69,16 +72,19 @@ namespace Tarea3.Migrations
                     b.Property<int>("PersonaId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Visibilidad")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("PrestamoId");
 
                     b.HasIndex("PersonaId");
 
-                    b.ToTable("Prestamos");
+                    b.ToTable("Prestamo");
                 });
 
-            modelBuilder.Entity("Tarea3.Models.Prestamos", b =>
+            modelBuilder.Entity("Tarea3.Models.Prestamo", b =>
                 {
-                    b.HasOne("Tarea3.Models.Personas", "Persona")
+                    b.HasOne("Tarea3.Models.Persona", "Persona")
                         .WithMany()
                         .HasForeignKey("PersonaId")
                         .OnDelete(DeleteBehavior.Cascade)
