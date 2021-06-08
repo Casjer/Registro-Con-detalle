@@ -6,84 +6,87 @@
 
 <EditForm Model="Prestamo" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
-    <div class="card">
-        <div class="card-header">
-            <h1>Registro de Prestamos</h1>
-        </div>
 
-        @*PretamoID y boton al lado*@
-        <div class="card-body">
-            <form />
-            <div class="form-row align-items-center">
-                <div class="col">
-                    <div class="form-group">
-                        <label>PrestamoId</label>
-                        <div class="input-group">
-                            <InputNumber @bind-Value="Prestamo.PrestamoId" class="form-control col-4" />
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search" viewBox="0 0 20 20">
-                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                    </svg> Buscar
-                                </button>
-                            </div>
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-md-6 col-sm-11 col-11">
+
+            <div class="card mt-1">
+
+                <div class="card-header">
+                    <h1>Registro de Prestamos</h1>
+                </div>
+
+                
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">PrestamoId</label>
+                            <InputNumber class="form-control" @bind-Value="Prestamo.PrestamoId" />
+                            <button class="btn btn-warning" type="button" @onclick="Buscar">
+                                <i class="oi oi-magnifying-glass" /> Buscar
+                            </button>
                         </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">PersonaId</label>
+                            <select id="persona_select" @bind="Prestamo.PersonaId" class="form-control">
+                                <option value="" disabled selected>Persona Disponibles</option>
+                                @foreach (var item in Personas)
+                                {
+                                    <option value="@item.PersonaId">@item.Nombres</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Concepto</label>
+                            <InputText @bind-Value="Prestamo.Concepto" class="form-control" />
+                            <ValidationMessage For="@(() => Prestamo.Concepto)" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Fecha de creación</label>
+                            <InputDate @bind-Value="Prestamo.Fecha" class="form-control" />
+                            <ValidationMessage For="@(() => Prestamo.Fecha)" />
+                        </div>
+
+                        
+                        <div class="mb-3">
+                            <label>Monto</label>
+                            <InputNumber @bind-Value="Prestamo.Monto" step="0.2" class="form-control" />
+                            <ValidationMessage For="@(() => Prestamo.Monto)" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Balance</label>
+                            <InputNumber @bind-Value="Prestamo.Balance" class="form-control " readonly />
+                            <ValidationMessage For="@(() => Prestamo.Balance)" />
+                        </div>
+
+                    </form>
+                </div>
+
+
+                <div class="card-footer">
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-primary" @onclick="Nuevo">
+                            <i class="oi oi-file mr-2" />Nuevo
+                        </button>
+
+                        <button type="submit" class="btn btn-success" @onclick="Guardar">
+                            <i class="oi oi-account-login" style="transform:rotate(90deg)" /> Guardar
+                        </button>
+
+                        <button type="button" class="btn btn-danger" @onclick="Eliminar">
+                            <i class="oi oi-trash mr-2" />Eliminar
+                        </button>
                     </div>
                 </div>
             </div>
-
-            <div class="form-group">
-                <label for="persona_select">PersonaId</label>
-                <select id="persona_select" @bind="Prestamo.PersonaId" class="form-control">
-                    <option value="" disabled selected>Persona Disponibles</option>
-                    @foreach (var item in Personas)
-                    {
-                        <option value="@item.PersonaId">@item.Nombres</option>
-                    }
-                </select>
-            </div>
-
-            @*Concepto*@
-            <div class="form-group">
-                <label>Concepto</label>
-                <InputText @bind-Value="Prestamo.Concepto" class="form-control" />
-                <ValidationMessage For="@(() => Prestamo.Concepto)" />
-            </div>
-
-            @*Fecha de creación*@
-            <div class="form-group">
-                <label>Fecha de creación</label>
-                <InputDate @bind-Value="Prestamo.Fecha" class="form-control" />
-                <ValidationMessage For="@(() => Prestamo.Fecha)" />
-            </div>
-
-            @*Monto*@
-            <div class="form-group">
-                <label>Monto</label>
-                <InputNumber @bind-Value="Prestamo.Monto" step="0.2" class="form-control" />
-                <ValidationMessage For="@(() => Prestamo.Monto)" />
-            </div>
-
-
-            @*Balance*@
-            <div class="form-group">
-                <label>Balance</label>
-                <InputNumber @bind-Value="Prestamo.Balance" class="form-control "  />
-                <ValidationMessage For="@(() => Prestamo.Balance)" />
-            </div>
-
-        </div>
-
-
-        <div class="card-footer">
-            <div class="form-group text-center">
-                <button type="button" class="btn btn-primary" @onclick="Nuevo" style="margin: 5px">Nuevo</button>
-                <button type="submit" class="btn btn-success" style="margin: 5px">Guardar</button>
-                <button type="button" class="btn btn-danger" @onclick="Eliminar" style="margin: 5px">Eliminar</button>
-            </div>
         </div>
     </div>
-    
+
 </EditForm>
 
 @code

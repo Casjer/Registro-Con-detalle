@@ -14,8 +14,9 @@ namespace Tarea3.BLL
     {
         public static bool Guardar(Prestamo prestamo)
         {
-            if (!Existe(prestamo.PrestamoId))
+            if (!Existe(prestamo.PrestamoId)) 
                 return Insertar(prestamo);
+            
             else
                 return Modificar(prestamo);
         }

@@ -11,63 +11,80 @@
 
 <EditForm Model="Persona" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
-    <div class="card">
-        <div class="card-header">
-            <h3>Registro de Personas</h3>
-        </div>
-        <div class="card-body">
-            <form>
-                   
-                <div class="input-group mb-3">
-                    <div class="form-floating">
-                        <input type="number" @bind-value="Persona.PersonaId" class="form-control" min="0" id="ClienteIdFlotante" placeholder="Persona Id" />
-                        <label for="ClienteIdFlotante" style="color: gray;">Persona Id</label>
+
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-md-6 col-sm-11 col-11">
+
+            <div class="card mt-1">
+
+                <div class="card-header">
+                    <h3>Registro de Personas</h3>
+                </div>
+
+                <div class="card-body">
+                    <form>
+
+                        <div class="mb-3">
+                            <label class="form-label">PersonaId</label>
+                            <InputNumber class="form-control" @bind-Value="Persona.PersonaId" />
+                            <button class="btn btn-warning" type="button" @onclick="Buscar">
+                                <i class="oi oi-magnifying-glass" /> Buscar
+                            </button>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Nombres</label>
+                            <input type="text" @bind-value="Persona.Nombres" class="form-control" />
+                            <ValidationMessage For="@(() => Persona.Nombres)" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Teléfono</label>
+                            <input type="tel" @bind-value="Persona.Telefono" class="form-control" />
+                            <ValidationMessage For="@(() => Persona.Telefono)" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="direccionFlotante">Dirección</label>
+                            <input type="text" @bind-value="Persona.Direccion" class="form-control" />
+                            <ValidationMessage For="@(() => Persona.Direccion)" />
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label>Fecha Nacimiento</label>
+                            <input type="date" @bind-value="Persona.FechaNacimiento" class="form-control" />
+                            <ValidationMessage For="@(() => Persona.FechaNacimiento)" />
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="balanceFlotante">Balance</label>
+                            <input type="number" @bind-value="Persona.Balance" class="form-control" readonly />
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer">
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-primary" @onclick="Nuevo">
+                            <i class="oi oi-file mr-2" />Nuevo
+                        </button>
+
+                        <button type="submit" class="btn btn-success" @onclick="Guardar">
+                            <i class="oi oi-account-login" style="transform:rotate(90deg)" /> Guardar
+                        </button>
+
+                        <button type="button" class="btn btn-danger" @onclick="Eliminar">
+                            <i class="oi oi-trash mr-2" />Eliminar
+                        </button>
                     </div>
-                      
-                    <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
                 </div>
-
-                <div class="form-floating mb-3">
-                    <input type="text" @bind-value="Persona.Nombres" class="form-control" id="nombreFlotante" placeholder="Nombres" />
-                    <label for="nombreFlotante" style="color: gray;">Nombres</label>
-                    <ValidationMessage For="@(() => Persona.Nombres)" />
-                </div>
-
-                <div class="form-floating mb-3">
-                    <input type="tel" @bind-value="Persona.Telefono" class="form-control" id="telefonoFlotante" placeholder="Teléfono" maxlength="16" />
-                    <label for="telefonoFlotante" style="color: gray;">Teléfono</label>
-                    <ValidationMessage For="@(() => Persona.Telefono)" />
-                </div>
-
-                <div class="form-floating mb-3">
-                    <input type="text" @bind-value="Persona.Direccion" class="form-control" id="direccionFlotante" placeholder="Dirección" />
-                    <label for="direccionFlotante" style="color: gray;">Dirección</label>
-                    <ValidationMessage For="@(() => Persona.Direccion)" />
-                </div>
-
-
-                <div class="form-floating mb-3">
-                    <input type="date" @bind-value="Persona.FechaNacimiento" class="form-control" id="fechaNacimientoFlotante" placeholder="Fecha Nacimiento" />
-                    <label for="fechaNacimientoFlotante" style="color: gray;">Fecha Nacimiento</label>
-                    <ValidationMessage For="@(() => Persona.FechaNacimiento)" />
-                </div>
-
-                
-                <div class="form-floating mb-3">
-                    <input type="number" @bind-value="Persona.Balance" class="form-control" id="balanceFlotante" placeholder="Balance" readonly />
-                    <label for="balanceFlotante" style="color: gray;">Balance</label>
-                </div>
-            </form>
-        </div>
- 
-        <div class="card-footer">
-            <div class="form-group text-center">
-                <button type="button" class="btn btn-primary" @onclick="Nuevo" style="margin: 5px">Nuevo</button>
-                <button type="submit" class="btn btn-success" style="margin: 5px">Guardar</button>
-                <button type="button" class="btn btn-danger" @onclick="Eliminar" style="margin: 5px">Eliminar</button>
             </div>
         </div>
     </div>
+    
 </EditForm>
 
 @code {
