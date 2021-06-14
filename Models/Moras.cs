@@ -10,7 +10,7 @@ namespace Tarea3.Models
     public class Moras
     {
         [Key]
-        public int MoraId { get; set; }
+        public int MoraId { get; set; } 
         public DateTime Fecha { get; set; }
         public float Total { get; set; }
 

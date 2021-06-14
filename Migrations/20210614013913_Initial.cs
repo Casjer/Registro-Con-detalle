@@ -9,7 +9,7 @@ namespace Tarea3.Migrations
         {
             migrationBuilder.CreateTable(
                 name: "Moras",
-                columns: table => new
+                columns: table => new 
                 {
                     MoraId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),

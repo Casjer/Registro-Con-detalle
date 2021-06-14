@@ -8,6 +8,7 @@ using Tarea3.Models;
 
 namespace Tarea3.DAL
 {
+
     public class Contexto : DbContext
     {
         public DbSet<Persona> Persona { get; set; }
