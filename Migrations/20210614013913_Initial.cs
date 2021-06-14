@@ -8,6 +8,20 @@ namespace Tarea3.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Moras",
+                columns: table => new
+                {
+                    MoraId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Total = table.Column<float>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Moras", x => x.MoraId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Persona",
                 columns: table => new
                 {
@@ -23,6 +37,27 @@ namespace Tarea3.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Persona", x => x.PersonaId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MorasDetalle",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    MoraId = table.Column<int>(type: "INTEGER", nullable: false),
+                    PrestamoId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Valor = table.Column<float>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MorasDetalle", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MorasDetalle_Moras_MoraId",
+                        column: x => x.MoraId,
+                        principalTable: "Moras",
+                        principalColumn: "MoraId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,6 +85,11 @@ namespace Tarea3.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_MorasDetalle_MoraId",
+                table: "MorasDetalle",
+                column: "MoraId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Prestamo_PersonaId",
                 table: "Prestamo",
                 column: "PersonaId");
@@ -58,7 +98,13 @@ namespace Tarea3.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "MorasDetalle");
+
+            migrationBuilder.DropTable(
                 name: "Prestamo");
+
+            migrationBuilder.DropTable(
+                name: "Moras");
 
             migrationBuilder.DropTable(
                 name: "Persona");

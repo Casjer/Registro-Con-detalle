@@ -16,6 +16,45 @@ namespace Tarea3.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.6");
 
+            modelBuilder.Entity("Tarea3.Models.Moras", b =>
+                {
+                    b.Property<int>("MoraId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("TEXT");
+
+                    b.Property<float>("Total")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("MoraId");
+
+                    b.ToTable("Moras");
+                });
+
+            modelBuilder.Entity("Tarea3.Models.MorasDetalle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MoraId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PrestamoId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<float>("Valor")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MoraId");
+
+                    b.ToTable("MorasDetalle");
+                });
+
             modelBuilder.Entity("Tarea3.Models.Persona", b =>
                 {
                     b.Property<int>("PersonaId")
@@ -80,6 +119,15 @@ namespace Tarea3.Migrations
                     b.ToTable("Prestamo");
                 });
 
+            modelBuilder.Entity("Tarea3.Models.MorasDetalle", b =>
+                {
+                    b.HasOne("Tarea3.Models.Moras", null)
+                        .WithMany("MorasDetalle")
+                        .HasForeignKey("MoraId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Tarea3.Models.Prestamo", b =>
                 {
                     b.HasOne("Tarea3.Models.Persona", "Persona")
@@ -89,6 +137,11 @@ namespace Tarea3.Migrations
                         .IsRequired();
 
                     b.Navigation("Persona");
+                });
+
+            modelBuilder.Entity("Tarea3.Models.Moras", b =>
+                {
+                    b.Navigation("MorasDetalle");
                 });
 #pragma warning restore 612, 618
         }
